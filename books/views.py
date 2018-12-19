@@ -1,5 +1,7 @@
-from django.shortcuts import render,get_object_or_404
+from django.shortcuts import render,get_object_or_404,redirect
 from .models import Book
+from .forms import BookForm
+from django.contrib import messages
 # from django.http import Http404
 
 def index(request):
@@ -15,7 +17,20 @@ def show(request,pk):
     return render(request,'books/show.html',{'book':book})
 
 def add(request):
-    print(request.method)
-    if request.method == 'POST':
-        print(request.POST)
-    return render(request,'books/add.html')
+    # form = None
+    # if request.method == 'POST':
+        
+    #     form = BookForm(request.POST)
+        
+    #     if form.is_valid():
+    #         Book.objects.create(**form.cleaned_data)
+    # else :
+    #     form = BookForm()
+            
+    form = BookForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        messages.success(request,'新增成功')
+        return redirect('books-index')
+
+    return render(request,'books/add.html',{'form':form})
