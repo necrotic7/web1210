@@ -1,0 +1,9 @@
+
+{% load bootstrap4 %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit" class="btn btn-primary float-right">Send</button>
+    <a href="{% url 'books:index' %}" class="btn btn-primary">BACK</a>
+  </form>
